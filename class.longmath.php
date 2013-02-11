@@ -178,20 +178,15 @@ class longmath {
     public static function verify_string(&$str) {
         $str = trim($str);
         $allowed = "1234567890-.";
-        foreach ($str as $s):
-            if (strpos($allowed, $s) === false):
+        foreach ($str as $s)
+            if (strpos($allowed, $s) === false)
                 throw new Exception('Invalid number');
-                return false;
-            endif;
-        endforeach;
         return true;
     }
 
     public static function is_positive($str) {
         $str = trim($str);
-        if (substr($str, 0, 1) === '-')
-            return false;
-        return true;
+        return substr($str, 0, 1) !== '-';
     }
 
 }
