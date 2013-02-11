@@ -3,8 +3,12 @@
 /**
  * Long Math Function Library.
  * 
- * Author: Michael Meyer
- * Email: m.meyer2k@gmail.com
+ * Performs basic math operations on numbers represented as arbitrary length strings
+ * 
+ * @todo Improve efficiency
+ * @todo Add more documentattion
+ * @author Michael Meyer
+ * @email m.meyer2k@gmail.com
  */
 class longmath {
 
