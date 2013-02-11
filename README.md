@@ -1,4 +1,4 @@
-stringmath
+longmath
 ==========
 
 Class for handling arbitrary precision math without PHP plugins.
