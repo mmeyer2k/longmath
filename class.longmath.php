@@ -194,14 +194,16 @@ class longmath {
         return substr($str, 0, 1) !== '-';
     }
     
-    public static function to_binary($str) {    
-        $mybitseq = "";
-        $end = strlen($mystring);
-        for($i = 0 ; $i < $end; $i++){
-            $mybyte = decbin(ord($mystring[$i])); # convert char to bit string
-            $mybitseq .= substr("00000000",0,8 - strlen($mybyte)) . $mybyte; # 8 bit packed
+    function decimal2binary($number) {
+        while ($number >= 256) {
+            $bytes[] = (($number / 256) - (floor($number / 256))) * 256;
+            $number = floor($number / 256);
         }
-        return $mybitseq;
+        $bytes[] = $number;
+        for ($i=0;$i<count($bytes);$i++) {
+            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, "0", STR_PAD_LEFT)).$binstring;
+        }
+        return $binstring;
     }
     
 
