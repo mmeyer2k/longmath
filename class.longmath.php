@@ -193,6 +193,17 @@ class longmath {
         $str = trim($str);
         return substr($str, 0, 1) !== '-';
     }
+    
+    public static function to_binary($str) {    
+        $mybitseq = "";
+        $end = strlen($mystring);
+        for($i = 0 ; $i < $end; $i++){
+            $mybyte = decbin(ord($mystring[$i])); # convert char to bit string
+            $mybitseq .= substr("00000000",0,8 - strlen($mybyte)) . $mybyte; # 8 bit packed
+        }
+        return $mybitseq;
+    }
+    
 
 }
 
