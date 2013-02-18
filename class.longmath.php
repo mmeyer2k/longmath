@@ -200,9 +200,9 @@ class longmath {
             $number = floor($number / 256);
         }
         $bytes[] = $number;
-        for ($i=0;$i<count($bytes);$i++) {
-            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, "0", STR_PAD_LEFT)).$binstring;
-        }
+        for ($i=0;$i<count($bytes);$i++) 
+            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)).$binstring;
+        
         return $binstring;
     }
     
