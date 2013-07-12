@@ -20,6 +20,8 @@ class longmath {
      * @return string
      */
     public static function add($str1, $str2) {
+        
+        # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
             $negative = true;
@@ -41,6 +43,7 @@ class longmath {
             endif;
         endif;
 
+        # get absolute values for input numbers
         $abs1 = self::absolute($str1);
         $abs2 = self::absolute($str2);
 
@@ -48,6 +51,7 @@ class longmath {
         if (strlen($abs2) > $length)
             $length = strlen($abs2);
 
+        # pad numbers to equal length
         $abs1 = str_pad($abs1, $length, '0', STR_PAD_LEFT);
         $abs2 = str_pad($abs2, $length, '0', STR_PAD_LEFT);
 
