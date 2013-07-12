@@ -198,17 +198,5 @@ class longmath {
         return substr($str, 0, 1) !== '-';
     }
     
-    function decimal2binary($number) {
-        while ($number >= 256) {
-            $bytes[] = (($number / 256) - (floor($number / 256))) * 256;
-            $number = floor($number / 256);
-        }
-        $bytes[] = $number;
-        for ($i=0;$i<count($bytes);$i++) 
-            $binstring = (($i == count($bytes) - 1) ? decbin($bytes[$i]) : str_pad(decbin($bytes[$i]), 8, '0', STR_PAD_LEFT)).$binstring;
-        
-        return $binstring;
-    }
-    
 
 }
