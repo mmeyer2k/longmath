@@ -180,7 +180,7 @@ class longmath {
         return '-' . self::absolute($str);
     }
 
-    public static function verify_string(&$str) {
+    public static function verify_string($str) {
         $str = trim($str);
         $allowed = "1234567890-.";
         foreach ($str as $s)
