@@ -73,11 +73,16 @@ class longmath {
                 $total = $sum . $total;
                 $carry = 0;
             else:
-                $total = $sum . substr($sum, 1, 1);
+                $total = substr($sum, 1, 1) . $total;
                 $carry = 1;
             endif;
             $x--;
         endwhile;
+        
+        # include any lingering carry amount
+        if ($carry)
+            $total = $carry . $total;
+        
         return $total;
     }
 
