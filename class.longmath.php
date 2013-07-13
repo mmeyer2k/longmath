@@ -20,7 +20,7 @@ class longmath {
      * @return string
      */
     public static function add($str1, $str2) {
-        
+
         # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
@@ -73,7 +73,7 @@ class longmath {
                 $total = $sum . $total;
                 $carry = 0;
             else:
-                $total = substr($sum, 1, 1);
+                $total = $sum . substr($sum, 1, 1);
                 $carry = 1;
             endif;
             $x--;
@@ -197,6 +197,5 @@ class longmath {
         $str = trim($str);
         return substr($str, 0, 1) !== '-';
     }
-    
 
 }
