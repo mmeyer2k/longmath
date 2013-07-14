@@ -126,17 +126,11 @@ class longmath {
         if (self::is_negative($str1) && self::is_positive($str2)):
             return self::add(self::negative_absolute($str1), self::negative_absolute($str2));
 
+        elseif (self::is_negative($str1) && self::is_negative($str2)):
+            return '-' . self::add(self::absolute($str1), $str2);
+
         elseif (self::is_negative($str2) && self::is_positive($str1)):
         #return self::add($str1, $str2);
-
-        elseif (self::is_negative($str1) && self::is_negative($str2)):
-            if ($str1 === $str2)
-                return '0';
-            if (self::return_larger($str1, $str2) === $str2):
-                $negative = false;
-            else:
-                $negative = true;
-            endif;
 
         elseif (self::is_positive($str1) && self::is_positive($str2)):
             if ($str1 === $str2)
@@ -194,6 +188,10 @@ class longmath {
         $str1 = trim($str1);
         $str2 = trim($str2);
 
+        # return 0 if either input is 0
+        if ($str1 === '0' || $str2 === '0')
+            return '0';
+
         $negative = false;
         if (self::is_negative($str1) && self::is_positive($str2)):
             $negative = true;
@@ -213,7 +211,11 @@ class longmath {
             $line = '';
             foreach ($top as $t):
                 $t+= $carry;
-                $line = ($t * $b) . $line;
+                $digits_product = ($t * $b);
+
+                # get last line of product
+                $line_product = substr($digits_product, -1);
+                $line = $line_product . $line;
             endforeach;
             $lines[] = $line;
         endforeach;
