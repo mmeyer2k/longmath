@@ -24,6 +24,11 @@ elseif ($argv[1] === '-a' || $argv[1] === '--add'):
 elseif ($argv[1] === '-c' || $argv[1] === '--compare'):
     echo longmath::compare($argv[2], $argv[3]);
 
+elseif ($argv[1] === '-m' || $argv[1] === '--multiply'):
+    echo longmath::multiply($argv[2], $argv[3]);
+
 elseif ($argv[1] === '-i' || $argv[1] === '--interactive'):
+
+else:
     
 endif;
