@@ -123,15 +123,11 @@ class longmath {
             return $str1;
 
         # check for opposite sign
-        if (self::is_negative($str1) && self::is_positive($str2)):              
-            if (self::absolute($str1) === self::absolute($str2)):
-                # items cancel out, return 0
-                return '0';                                                     
-            endif;
+        if (self::is_negative($str1) && self::is_positive($str2)):
             return self::add(self::negative_absolute($str1), self::negative_absolute($str2));
 
         elseif (self::is_negative($str2) && self::is_positive($str1)):
-            return self::add($str1, $str2);
+        #return self::add($str1, $str2);
 
         elseif (self::is_negative($str1) && self::is_negative($str2)):
             if ($str1 === $str2)
@@ -151,9 +147,35 @@ class longmath {
 
         $compare = '';
         $carry = 0;
+
         $top = self::absolute(self::return_larger($str1, $str2));
         $bot = self::absolute(self::return_smaller($str1, $str2));
         $bot = str_pad($bot, strlen($top), '0', STR_PAD_LEFT);
+
+        # get the length of longest string
+        $x = strlen($top);
+        $x--;
+
+        $top = str_split($top);
+        $bot = str_split($bot);
+
+        while ($x >= 0):
+
+            $top_digit = $top[$x] - $carry;
+
+            if ($bot[$x] > $top_digit)
+                $carry = 1;
+
+            $compare = ($top_digit - $bot[$x]) . $compare;
+
+            $x--;
+        endwhile;
+
+        # set output as negative, if needed
+        if ($negative)
+            $compare = '-' . $compare;
+
+        return $compare;
     }
 
     public static function multiply($str1, $str2) {
