@@ -206,17 +206,23 @@ class longmath {
         $bot = array_reverse(str_split($bot));
 
         $lines = array();
+        $count = 0;
         foreach ($bot as $b):
             $carry = 0;
             $line = '';
             foreach ($top as $t):
-                $t+= $carry;
                 $digits_product = ($t * $b);
+
+                if ($carry):
+                    $digits_product+= $carry;
+                    $carry = 0;
+                endif;
 
                 # get last digit of product
                 $line_product = substr($digits_product, -1);
 
-                if ($line_product > 9)
+
+                if ($digits_product > 9)
                     $carry = substr($digits_product, 0, 1);
 
                 $line = $line_product . $line;
@@ -225,7 +231,8 @@ class longmath {
             if ($carry)
                 $line = $carry . $line;
 
-            $lines[] = $line;
+            $lines[] = $line . str_repeat('0', $count);
+            $count++;
         endforeach;
 
         $product = '0';
