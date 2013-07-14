@@ -202,8 +202,8 @@ class longmath {
         $top = self::return_larger($str1, $str2);
         $bot = self::return_smaller($str1, $str2);
 
-        $top = str_split($top);
-        $bot = str_split($bot);
+        $top = array_reverse(str_split($top));
+        $bot = array_reverse(str_split($bot));
 
         $lines = array();
         foreach ($bot as $b):
@@ -213,10 +213,18 @@ class longmath {
                 $t+= $carry;
                 $digits_product = ($t * $b);
 
-                # get last line of product
+                # get last digit of product
                 $line_product = substr($digits_product, -1);
+
+                if ($line_product > 9)
+                    $carry = substr($digits_product, 0, 1);
+
                 $line = $line_product . $line;
             endforeach;
+
+            if ($carry)
+                $line = $carry . $line;
+
             $lines[] = $line;
         endforeach;
 
