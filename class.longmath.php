@@ -100,7 +100,7 @@ class longmath {
     }
 
     /**
-     * 
+     * Subtract one number from another
      * @param string $str1
      * @param string $str2
      * @return string
@@ -178,8 +178,56 @@ class longmath {
         return $compare;
     }
 
+    /**
+     * 
+     * @param string $str1
+     * @param string $str2
+     * @return string
+     */
     public static function multiply($str1, $str2) {
-        
+
+        # verify that the input numbers are actually valid
+        self::verify_string($str1);
+        self::verify_string($str2);
+
+        # trim inputs, just in case
+        $str1 = trim($str1);
+        $str2 = trim($str2);
+
+        $negative = false;
+        if (self::is_negative($str1) && self::is_positive($str2)):
+            $negative = true;
+        elseif (self::is_negative($str2) && self::is_positive($str1)):
+            $negative = true;
+        endif;
+
+        $top = self::return_larger($str1, $str2);
+        $bot = self::return_smaller($str1, $str2);
+
+        $top = str_split($top);
+        $bot = str_split($bot);
+
+        $lines = array();
+        foreach ($bot as $b):
+            $carry = 0;
+            $line = '';
+            foreach ($top as $t):
+                $t+= $carry;
+                $line = ($t * $b) . $line;
+            endforeach;
+            $lines[] = $line;
+        endforeach;
+
+        $product = '0';
+
+        foreach ($lines as $l)
+            $product = self::add($product, $l);
+
+        # set output as negative, if needed
+        if ($negative)
+            $compare = '-' . $compare;
+
+        return $product;
     }
 
     public static function return_smaller($str1, $str2) {
