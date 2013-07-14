@@ -21,13 +21,21 @@ class longmath {
      */
     public static function add($str1, $str2) {
 
+        # verify that the input numbers are actually valid
+        self::verify_string($str1);
+        self::verify_string($str2);
+
+        # trim inputs, just in case
+        $str1 = trim($str1);
+        $str2 = trim($str2);
+
         # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
             $negative = true;
         elseif (self::is_negative($str1) && self::is_positive($str2)):
             if (self::absolute($str1) === $str2)
-                return 0;
+                return '0';
             if (self::return_larger($str1, $str2) === $str2):
                 return self::compare($str2, self::absolute($str1));
             else:
@@ -47,6 +55,7 @@ class longmath {
         $abs1 = self::absolute($str1);
         $abs2 = self::absolute($str2);
 
+        # get the length of the 2 numbers
         $length = strlen($abs1);
         if (strlen($abs2) > $length)
             $length = strlen($abs2);
@@ -78,11 +87,15 @@ class longmath {
             endif;
             $x--;
         endwhile;
-        
+
         # include any lingering carry amount
         if ($carry)
             $total = $carry . $total;
-        
+
+        # set output as negative, if needed
+        if ($negative)
+            $total = '-' . $total;
+
         return $total;
     }
 
@@ -93,15 +106,27 @@ class longmath {
      * @return string
      */
     public static function compare($str1, $str2) {
-        $bnegresult = false;
+
+        # verify that the input numbers are actually valid
+        self::verify_string($str1);
+        self::verify_string($str2);
+
+        # trim inputs, just in case
+        $str1 = trim($str1);
+        $str2 = trim($str2);
+
+        # determine if output needs to be negative
+        $negative = false;
         if (self::absolute($str1) === '0')
-            return $str2;
+            return '-' . $str2;
         if (self::absolute($str2) === '0')
             return $str1;
 
-        if (self::is_negative($str1) && self::is_positive($str2)):              //check for opposite sign
+        # check for opposite sign
+        if (self::is_negative($str1) && self::is_positive($str2)):              
             if (self::absolute($str1) === self::absolute($str2)):
-                return '0';                                                     //items cancel out, return 0
+                # items cancel out, return 0
+                return '0';                                                     
             endif;
             return self::add(self::negative_absolute($str1), self::negative_absolute($str2));
 
@@ -112,16 +137,16 @@ class longmath {
             if ($str1 === $str2)
                 return '0';
             if (self::return_larger($str1, $str2) === $str2):
-                $bnegresult = false;
+                $negative = false;
             else:
-                $bnegresult = true;
+                $negative = true;
             endif;
 
         elseif (self::is_positive($str1) && self::is_positive($str2)):
             if ($str1 === $str2)
                 return '0';
             if (self::return_larger($str1, $str2) === $str2)
-                $bnegresult = true;
+                $negative = true;
         endif;
 
         $compare = '';
@@ -162,8 +187,8 @@ class longmath {
         if ($str1len < $str2len)
             return $str2;
 
-        $str1arr = explode($str1);
-        $str2arr = explode($str2);
+        $str1arr = str_split($str1);
+        $str2arr = str_split($str2);
 
         for ($x = 0; $x <= $str1len; $x++):
             if ((int) $str1arr[$x] > (int) $str2arr[$x])
@@ -189,12 +214,19 @@ class longmath {
         return '-' . self::absolute($str);
     }
 
-    public static function verify_string($str) {
+    public static function verify_string($str, $throw = true) {
         $str = trim($str);
         $allowed = "1234567890-.";
-        foreach ($str as $s)
-            if (strpos($allowed, $s) === false)
-                throw new Exception('Invalid number');
+        $str = str_split($str);
+        foreach ($str as $s):
+            if (strpos($allowed, $s) === false):
+                if ($throw):
+                    throw new Exception('Invalid number');
+                else:
+                    return false;
+                endif;
+            endif;
+        endforeach;
         return true;
     }
 
