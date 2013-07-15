@@ -154,7 +154,6 @@ class longmath {
         $bot = str_split($bot);
 
         while ($x >= 0):
-
             $top_digit = $top[$x] - $carry;
 
             if ($bot[$x] > $top_digit)
@@ -191,6 +190,12 @@ class longmath {
         # return 0 if either input is 0
         if ($str1 === '0' || $str2 === '0')
             return '0';
+
+        # simple multiplication by 1
+        if ($str1 === '1')
+            return $str2;
+        if ($str2 === '1')
+            return $str1;
 
         $negative = false;
         if (self::is_negative($str1) && self::is_positive($str2)):
@@ -245,6 +250,16 @@ class longmath {
             $compare = '-' . $compare;
 
         return $product;
+    }
+
+    public static function divide($str1, $str2) {
+        # verify that the input numbers are actually valid
+        self::verify_string($str1);
+        self::verify_string($str2);
+
+        # trim inputs, just in case
+        $str1 = trim($str1);
+        $str2 = trim($str2);
     }
 
     public static function return_smaller($str1, $str2) {
