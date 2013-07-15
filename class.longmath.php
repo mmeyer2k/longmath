@@ -96,12 +96,6 @@ class longmath {
         if ($negative)
             $total = '-' . $total;
 
-        if ($decimal_carry)
-            $total = self::add($total, $decimal_carry);
-
-        if ($decimal)
-            $total = $total . '.' . $decimal;
-
         return $total;
     }
 
