@@ -96,6 +96,12 @@ class longmath {
         if ($negative)
             $total = '-' . $total;
 
+        if ($decimal_carry)
+            $total = self::add($total, $decimal_carry);
+
+        if ($decimal)
+            $total = $total . '.' . $decimal;
+
         return $total;
     }
 
@@ -260,6 +266,9 @@ class longmath {
         # trim inputs, just in case
         $str1 = trim($str1);
         $str2 = trim($str2);
+
+        if (self::absolute($str2) === '0')
+            throw new Exception('Division by zero');
     }
 
     public static function return_smaller($str1, $str2) {
@@ -318,6 +327,13 @@ class longmath {
 
     public static function verify_string($str, $throw = true) {
         $str = trim($str);
+
+        if (substr_count($str, '-') > 1)
+            throw new Exception('Invalid number');
+
+        if (substr_count($str, '.') > 1)
+            throw new Exception('Invalid number');
+
         $allowed = "1234567890-.";
         $str = str_split($str);
         foreach ($str as $s):
