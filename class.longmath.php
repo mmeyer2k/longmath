@@ -29,9 +29,6 @@ class longmath {
         $str1 = trim($str1);
         $str2 = trim($str2);
 
-        if (self::is_decimal($str1) || self::is_decimal($str2))
-            return self::dec_add($str1, $str2);
-
         # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
@@ -53,6 +50,9 @@ class longmath {
                 return self::negative_absolute(self::compare($str1, self::absolute($str2)));
             endif;
         endif;
+
+        if (self::is_decimal($str1) || self::is_decimal($str2))
+            return self::dec_add($str1, $str2, $negative);
 
         # get absolute values for input numbers
         $abs1 = self::absolute($str1);
@@ -354,7 +354,7 @@ class longmath {
         return strpos($str, '.') !== false;
     }
 
-    private static function dec_add($str1, $str2) {
+    private static function dec_add($str1, $str2, $negative) {
 
         # normalize input that might not have a decimal place
         if (!self::is_decimal($str1))
@@ -387,7 +387,9 @@ class longmath {
             $decimal_result = substr($decimal_result, 1);
         endif;
 
-        return $integer_result . '.' . $decimal_result;
+        $negative = $negative ? '-' : '';
+
+        return $negative . $integer_result . '.' . $decimal_result;
     }
 
 }
