@@ -29,6 +29,9 @@ class longmath {
         $str1 = trim($str1);
         $str2 = trim($str2);
 
+        if (self::is_decimal($str1) || self::is_decimal($str2))
+            return self::dec_add($str1, $str2);
+
         # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
@@ -345,6 +348,46 @@ class longmath {
     public static function is_positive($str) {
         $str = trim($str);
         return substr($str, 0, 1) !== '-';
+    }
+
+    public static function is_decimal($str) {
+        return strpos($str, '.') !== false;
+    }
+
+    private static function dec_add($str1, $str2) {
+
+        # normalize input that might not have a decimal place
+        if (!self::is_decimal($str1))
+            $str1 .= '.0';
+        if (!self::is_decimal($str2))
+            $str2 .= '.0';
+
+        $exp1 = explode('.', $str1);
+        $exp2 = explode('.', $str2);
+
+        # gather decimal places from exploded numbers
+        # remove trailing zeros
+        $dec1 = rtrim($exp1[1], '0') ? : '0';
+        $dec2 = rtrim($exp2[1], '0') ? : '0';
+
+        # get the length of the longest decimal to have a carryover comparison
+        $length = strlen($dec1);
+        if (strlen($dec2) > $length)
+            $length = strlen($dec2);
+
+        $dec1 = str_pad($dec1, $length, '0');
+        $dec2 = str_pad($dec2, $length, '0');
+
+        $decimal_result = self::add($dec1, $dec2);
+
+        $integer_result = self::add($exp1[0], $exp2[0]);
+
+        if (strlen($decimal_result) > $length):
+            $integer_result = self::add($integer_result, '1');
+            $decimal_result = substr($decimal_result, 1);
+        endif;
+
+        return $integer_result . '.' . $decimal_result;
     }
 
 }
