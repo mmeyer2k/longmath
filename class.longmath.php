@@ -33,8 +33,10 @@ class longmath {
         # determine if the output will be negative
         $negative = false;
         if (self::is_negative($str1) && self::is_negative($str2)):
+            # if both input parameters are negative, output must be negative
             $negative = true;
         elseif (self::is_negative($str1) && self::is_positive($str2)):
+            # if items cancel out, return 0
             if (self::absolute($str1) === $str2)
                 return '0';
             if (self::return_larger($str1, $str2) === $str2):
