@@ -332,7 +332,7 @@ class longmath {
         if (substr_count($str, '.') > 1)
             throw new Exception('Invalid number');
 
-        $allowed = "1234567890-.";
+        $allowed = "1234567890-";
         $str = str_split($str);
         foreach ($str as $s):
             if (strpos($allowed, $s) === false):
