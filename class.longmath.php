@@ -8,6 +8,7 @@
  * @todo Improve efficiency
  * @todo Add more documentattion
  * @todo Complete multiply and divide functions
+ * @todo Complete decimal support
  * @author Michael Meyer
  * @email m.meyer2k@gmail.com
  */
