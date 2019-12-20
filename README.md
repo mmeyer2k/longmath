@@ -1,6 +1,8 @@
 longmath
 ==========
 
+**this was just for fun, don't actually use this for anything. bcmath is better**
+
 Class for handling arbitrary precision math without PHP plugins.
 
 After including the class, here are some examples:
